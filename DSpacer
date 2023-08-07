@@ -1,0 +1,55 @@
+repeat
+	
+	display dialog "Interagissez avec le bouton ci-dessous pour ajouter un espace vide au Dock.
+
+Pour plus d'informations sur DSpacer, ainsi que sur son fonctionnement, veuillez consultez la section 🛟 Aide et informations." with title "DSpacer" buttons {"Quitter", "Ajouter un espace vide", "🛟 Aide et informations"} default button 2
+	set choice to button returned of result
+	
+	if choice is "Quitter" then
+		tell application "DSpacer"
+			quit
+		end tell
+	end if
+	
+	if choice is "Ajouter un espace vide" then
+		display dialog "Le Dock va être relancé. " with icon caution with title "Avertissement" buttons {"Continuer"} default button 1
+		delay 1
+		do shell script "defaults write com.apple.dock persistent-apps -array-add '{\"tile-type\"=\"spacer-tile\";}'; killall Dock"
+		delay 1
+		display dialog "Un espace vide a été rajouté à l'extrémité droite du Dock.
+Pour plus d'informations sur cet élément, consultez la section 🛟 Aide et informations." with title "Espace vide ajouté" buttons {"🛟 Aide et informations", "Fermer"} default button 2
+		set choice to button returned of result
+	end if
+	
+	if choice is "🛟 Aide et informations" then
+		
+		display dialog "👉 Comment déplacer un espace vide ?
+		
+Pour déplacer un espace vide, maintenez celui-ci puis ajustez sa position dans le Dock.
+Remarque : relâcher l'élément en dehors du Dock le supprimera.
+
+👉 Comment supprimer un espace vide ?
+
+Pour faire disparaître un espace vide, effectuez un appui long ou clic-droit sur celui-ci, puis choisissez Supprimer du Dock." buttons {"Fermer", "À propos"} default button 2 with title "🛟 Aide et informations"
+		set choice to button returned of result
+		
+		if choice is "À propos" then
+			display dialog "Version 1.0 build 2
+2023, iStuces
+
+Pour toute suggestion ou tout signalement, merci de contacter istucesyt@gmail.com
+Pour bénéficier de toutes les informations sur ce logiciel, et de plus de contenus, rejoignez le serveur Discord d'iStuces :" with title "À propos de DSpacer" buttons {"Rejoindre le serveur Discord", "Fermer"} with icon note default button 2
+			
+			set choice to button returned of result
+			
+			if choice is "Rejoindre le serveur Discord" then
+				tell application "Safari"
+					activate
+					open location "https://tinyurl.com/iStuces-Discord"
+				end tell
+			end if
+		end if
+		
+	end if
+	
+end repeat
